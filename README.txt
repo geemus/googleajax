@@ -13,7 +13,7 @@ Ruby wrapper to the Google AJAX API REST interfaces(Feeds, Language and Search).
 * Optionally, you can also set an api_key: GoogleAjax.api_key = 'YOUR_API_KEY'
 * Now you are set to go, so a few examples:
 * * GoogleAjax::Feed.find('ruby') # Find top 10 feeds for 'ruby'
-* * GoogleAjax::Feed.load('http://monki.geemus.com/feed/atom.xml') # Load 4 most recent entries from  feed 'http://monki.geemus.com/feed/atom.xml'
+* * GoogleAjax::Feed.load('http://monki.geemus.com/feed/atom.xml') # Load 4 most recent entries from feed 'http://monki.geemus.com/feed/atom.xml'
 * * GoogleAjax::Feed.lookup('http://monki.geemus.com') # Find feed for 'http://monki.geemus.com'
 * * GoogleAjax::Language.detect('Ciao mondo') # Find the language of the string 'Ciao mondo'
 * * GoogleAjax::Language.translate('Hello world', 'en', 'it') # Translate 'Hello world' to italian
