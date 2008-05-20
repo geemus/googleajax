@@ -1,0 +1,11 @@
+History.txt
+Manifest.txt
+README.txt
+Rakefile
+lib/google_ajax.rb
+lib/google_ajax/feed.rb
+lib/google_ajax/language.rb
+lib/google_ajax/parser.rb
+lib/google_ajax/search.rb
+lib/google_ajax/version.rb
+test/test_google_ajax.rb
