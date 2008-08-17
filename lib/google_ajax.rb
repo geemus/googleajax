@@ -32,7 +32,7 @@ class GoogleAjax
     url  = "#{API_BASE}#{api}/"
     url += "#{method}?"
     url += "&q=#{CGI::escape(query)}"
-    url += "&key=#{api_key}" if @@api_key
+    url += "&key=#{api_key}" if api_key
     url += "&" + args.collect {|key, value| "#{key}=#{value}"}.join('&') if args && !args.empty?
     data = open(url, "Referer" => @@referer).read
     Parser.parse(api, method, data)
