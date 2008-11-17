@@ -3,7 +3,7 @@
 require 'rubygems'
 require 'hoe'
 $: << File.dirname(__FILE__) + '/lib'
-require './lib/google_ajax.rb'
+require './lib/googleajax.rb'
 
 Hoe.new('GoogleAjax', GoogleAjax::VERSION::STRING) do |p|
   p.rubyforge_name = 'googleajax'
@@ -11,7 +11,7 @@ Hoe.new('GoogleAjax', GoogleAjax::VERSION::STRING) do |p|
   p.summary = 'Ruby wrapper to the Google AJAX API REST interfaces(Feeds, Language and Search).'
   p.url = 'http://googleajax.rubyforge.com'
   p.remote_rdoc_dir = ''
-  p.extra_deps << ['json', '>= 1.0.0']  
+  p.extra_deps << ['json', '>= 1.0.0']
 end
 
 # vim: syntax=Ruby
