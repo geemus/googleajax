@@ -2,16 +2,16 @@ class GoogleAjax
   class Parser
     def self.parse(api, method, data)
       if defined? Rails
-        data = ActiveSupport::JSON::decode(data) 
+        data = ActiveSupport::JSON::decode(data)
       else
-        data = JSON.parse(data) 
+        data = JSON.parse(data)
       end
       Errors.process(data)
       parser = Parser::PARSERS[api][method]
       parser.process(data['responseData'])
     end
   end
-  
+
   class FeedFind < Parser#:nodoc:
     def self.process(data)
       data['entries'].collect {|data| GoogleAjax::Feed::Feed.new(data)} if data
@@ -27,7 +27,7 @@ class GoogleAjax
       GoogleAjax::Feed::Feed.new(data) if data
     end
   end
-  
+
   class LanguageDetect < Parser#:nodoc
     def self.process(data)
       GoogleAjax::Language::Language.new(data) if data
@@ -38,7 +38,7 @@ class GoogleAjax
       GoogleAjax::Language::Translation.new(data) if data
     end
   end
-  
+
   class SearchBlogs < Parser#:nodoc
     def self.process(data)
       GoogleAjax::Search::Results.new(data) if data
@@ -53,7 +53,7 @@ class GoogleAjax
     def self.process(data)
       GoogleAjax::Search::Results.new(data) if data
     end
-  end  
+  end
   class SearchLocal < Parser#:nodoc
     def self.process(data)
       GoogleAjax::Search::Results.new(data) if data
@@ -63,7 +63,7 @@ class GoogleAjax
     def self.process(data)
       GoogleAjax::Search::Results.new(data) if data
     end
-  end  
+  end
   class SearchVideo < Parser#:nodoc
     def self.process(data)
       GoogleAjax::Search::Results.new(data) if data
@@ -74,7 +74,7 @@ class GoogleAjax
       GoogleAjax::Search::Results.new(data) if data
     end
   end
-  
+
   class Parser
     PARSERS = {
       :feed     => { :find => FeedFind, :load => FeedLoad, :lookup => FeedLookup },
@@ -82,7 +82,7 @@ class GoogleAjax
       :search   => { :blogs => SearchBlogs, :books => SearchBooks, :images => SearchImages, :local => SearchLocal, :news => SearchNews, :video => SearchVideo, :web => SearchWeb }
     }
   end
-  
+
   class Errors
     def self.process(data)
       status = data['responseStatus']
