@@ -2,7 +2,7 @@ require 'cgi'
 require 'open-uri'
 require 'ostruct'
 require 'rubygems'
-require 'json'
+require 'json' unless defined? Rails
 
 require 'googleajax/feed'
 require 'googleajax/language'

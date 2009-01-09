@@ -1,7 +1,11 @@
 class GoogleAjax
   class Parser
     def self.parse(api, method, data)
-      data = JSON.parse(data)
+      if defined? Rails
+        data = ActiveSupport::JSON::decode(data) 
+      else
+        data = JSON.parse(data) 
+      end
       Errors.process(data)
       parser = Parser::PARSERS[api][method]
       parser.process(data['responseData'])
