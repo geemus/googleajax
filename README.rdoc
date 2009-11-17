@@ -55,11 +55,11 @@ Ruby wrapper for Google AJAX API REST interfaces(Feeds, Language and Search).
 
 == REQUIREMENTS:
 
-* JSON gem to parse responses
+* JSON gem to parse responses, or rails
 
 == INSTALL:
 
-  sudo gem install googleajax --include-dependencies
+  sudo gem install googleajax
 
 == LICENSE:
 
