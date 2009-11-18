@@ -13,7 +13,7 @@ shared_examples_for "GoogleAjax" do
       end
 
       it "returns the expected results" do
-        @response['results'].count{|result| result['url'] =~ /http:(.*).apple.com/}.should >= 4
+        @response['results'].select{|result| result['url'] =~ /http:(.*).apple.com/}.size.should >= 4
       end
     end
 
