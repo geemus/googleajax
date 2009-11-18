@@ -1,94 +1,38 @@
-class GoogleAjax
-  class Parser
+module GoogleAjax
+  module Parser
     def self.parse(api, method, data)
-      if defined? Rails
-        data = ActiveSupport::JSON::decode(data)
+      data = if defined? Rails
+        ActiveSupport::JSON::decode(data)
       else
-        data = JSON.parse(data)
+        JSON.parse(data)
       end
-      Errors.process(data)
-      parser = Parser::PARSERS[api][method]
-      parser.process(data['responseData'])
+      process_errors(data)
+      parser = PARSERS[api][method]
+      response = data['responseData']
+      parser.is_a?(Symbol) ? send(parser, response) : parser.new(response) if response
     end
-  end
 
-  class FeedFind < Parser#:nodoc:
-    def self.process(data)
-      data['entries'].collect {|data| GoogleAjax::Feed::Feed.new(data)} if data
-    end
-  end
-  class FeedLoad < Parser#:nodoc:
-    def self.process(data)
-      GoogleAjax::Feed::Feed.new(data['feed']) if data
-    end
-  end
-  class FeedLookup < Parser#:nodoc:
-    def self.process(data)
-      GoogleAjax::Feed::Feed.new(data) if data
-    end
-  end
-
-  class LanguageDetect < Parser#:nodoc
-    def self.process(data)
-      GoogleAjax::Language::Language.new(data) if data
-    end
-  end
-  class LanguageTranslate < Parser#:nodoc
-    def self.process(data)
-      GoogleAjax::Language::Translation.new(data) if data
-    end
-  end
-
-  class SearchBlogs < Parser#:nodoc
-    def self.process(data)
-      GoogleAjax::Search::Results.new(data) if data
-    end
-  end
-  class SearchBooks < Parser#:nodoc
-    def self.process(data)
-      GoogleAjax::Search::Results.new(data) if data
-    end
-  end
-  class SearchImages < Parser#:nodoc
-    def self.process(data)
-      GoogleAjax::Search::Results.new(data) if data
-    end
-  end
-  class SearchLocal < Parser#:nodoc
-    def self.process(data)
-      GoogleAjax::Search::Results.new(data) if data
-    end
-  end
-  class SearchNews < Parser#:nodoc
-    def self.process(data)
-      GoogleAjax::Search::Results.new(data) if data
-    end
-  end
-  class SearchVideo < Parser#:nodoc
-    def self.process(data)
-      GoogleAjax::Search::Results.new(data) if data
-    end
-  end
-  class SearchWeb < Parser#:nodoc
-    def self.process(data)
-      GoogleAjax::Search::Results.new(data) if data
-    end
-  end
-
-  class Parser
-    PARSERS = {
-      :feed     => { :find => FeedFind, :load => FeedLoad, :lookup => FeedLookup },
-      :language => { :detect => LanguageDetect, :translate => LanguageTranslate, },
-      :search   => { :blogs => SearchBlogs, :books => SearchBooks, :images => SearchImages, :local => SearchLocal, :news => SearchNews, :video => SearchVideo, :web => SearchWeb }
-    }
-  end
-
-  class Errors
-    def self.process(data)
+    def self.process_errors(data)
       status = data['responseStatus']
-      unless [200, 201, 202, 203, 204, 205, 206].include? status
-        raise StandardError.new(data['responseDetails'])
+      unless (200..206).include? status
+        raise StandardError, data['responseDetails']
       end
     end
+
+    def self.parse_feed_list(data)
+      data['entries'].map(&Feed::Feed.method(:new))
+    end
+
+    def self.parse_one_feed(data)
+      Feed::Feed.new(data['feed'])
+    end
+
+    PARSERS = {
+      :feed     => { :find => :parse_feed_list, :load => :parse_one_feed, :lookup => Feed::Feed },
+      :language => { :detect => Language::Language, :translate => Language::Translation },
+      :search   => { :blogs => Search::Results, :books => Search::Results, :images => Search::Results, :local => Search::Results,
+                     :news => Search::Results, :video => Search::Results, :web => Search::Results }
+    }
+
   end
 end

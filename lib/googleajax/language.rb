@@ -1,36 +1,29 @@
-class GoogleAjax
-  class Language
+module GoogleAjax
+  module Language
     LANGUAGE_VERSION = 1.0
-    def self.get(method, query, args = {})
-      args = { :v => LANGUAGE_VERSION }.merge!(args)
+    def self.get(method, query, args)
+      args = { :v => LANGUAGE_VERSION }.merge(args)
       GoogleAjax::get(:language, method, query, args)
     end
     
     # will return the language code that describes the language of the given text
     def self.detect(query, args = {})
-      self.get(:detect, query)
+      self.get(:detect, query, args)
     end
     
     # will return translated text for the given text supplied, matching the destination language.
     def self.translate(query, source, destination, args = {})
-      args = { :langpair => "#{source}%7C#{destination}"}.merge!(args)
+      args = { :langpair => "#{source}%7C#{destination}"}.merge(args)
       self.get(:translate, query, args)
     end
     
-    class Language < OpenStruct
-      def initialize(data)
-        super(data)
-      end
-      
+    class Language < Base
       def name
-        LANGUAGES.invert[self.language]
+        (@@lang_cache ||= LANGUAGES.invert)[self.language]
       end
     end
     
-    class Translation < OpenStruct
-      def initialize(data)
-        super(data)
-      end
+    class Translation < Base
     end
     
     LANGUAGES =
@@ -77,6 +70,6 @@ class GoogleAjax
       'UKRAINIAN' => 'uk',
       'VIETNAMESE' => 'vi',
       'UNKNOWN' => ''
-    }    
+    }
   end
 end

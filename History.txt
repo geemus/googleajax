@@ -1,6 +1,22 @@
-=== 1.0.0 / 2008-05-19
+=== 0.2.0 / 2009-11-17
 
-* 1 major enhancement
+* New features:
+  * results can use [] and []= for lookup and seting
+  * allows results to be open structs (default) or hash (by requiring 'googleajax/as_hash' instead)
 
-  * Birthday!
+* bug fixes:
+  * Search.web(...).count now returns an int, not a string
+  * many calls were not passing the args argument to #get
+  * Feed.load used to return an open struct with only one method called 'feed' that was a hash. It now returns the feed correctly.
 
+* Behind the scene changes:
+  * specs
+  * shorter, cleaner code
+  * links to google api doc in rdoc
+  * most classes are now modules
+  * small optimizations
+  * All #get now requires arg (see bug fix)
+
+=== 0.1.0 / 2008-05-19
+
+* Initial Release
