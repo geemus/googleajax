@@ -1,7 +1,7 @@
 = GoogleAjax
 
 * Docs: http://googleajax.rubyforge.org
-* Code: http://github.com/monki/google_ajax/tree/master
+* Code: http://github.com/geemus/googleajax
 
 == DESCRIPTION:
 
