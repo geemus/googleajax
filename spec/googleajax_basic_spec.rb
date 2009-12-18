@@ -1,15 +1,13 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 require File.expand_path(File.dirname(__FILE__) + '/googleajax_common')
 
-require 'googleajax/as_hash'
+require 'googleajax/basic'
 
-describe "GoogleAjax/as_hash" do
-  it_should_behave_like "GoogleAjax"
-
-  it "returns results as a hash" do
+describe "GoogleAjax (basic)" do
+  it "returns results as an unaltered hash" do
     GoogleAjax.referer = "http://example.com"
     response = GoogleAjax::Search.web("apple", :rsz => :large)
-    response.is_a? Hash
-    response['cursor'].is_a? Hash
+    response.should be_kind_of(Hash)
+    response['cursor'].should be_an_instance_of(Hash)
   end
 end

@@ -13,7 +13,7 @@ shared_examples_for "GoogleAjax" do
       end
 
       it "returns the expected results" do
-        @response['results'].select{|result| result['url'] =~ /http:(.*).apple.com/}.size.should >= 4
+        @response[:results].select{|result| result[:url] =~ /http:(.*).apple.com/}.size.should >= 4
       end
     end
 
@@ -33,7 +33,7 @@ shared_examples_for "GoogleAjax" do
 
         it "takes options into account" do
           @response_large = GoogleAjax::Search.send(method, "ruby", *(args+[{:rsz => :large}]))
-          @response_large['results'].size.should > @response_small['results'].size
+          @response_large[:results].size.should > @response_small[:results].size
         end unless method == :blogs # Google doesn't seem to support this option for blogs???
 
         it "returns an approximate count of hits" do
@@ -50,14 +50,20 @@ shared_examples_for "GoogleAjax" do
 
     describe ".detect" do
       it "returns the right language" do
-        GoogleAjax::Language.detect("What's up folks")['language'].should == "en"
-        GoogleAjax::Language.detect("Montréal est une ville incroyable")['language'].should == "fr"
+        GoogleAjax::Language.detect("What's up folks")[:language].should == "en"
+        GoogleAjax::Language.detect("Montréal est une ville incroyable")[:language].should == "fr"
+      end
+
+      it "converts nicely the return types" do
+        result = GoogleAjax::Language.detect("Sandwich")
+        result[:is_reliable].should == false
+        result[:confidence].should be_a(Numeric)
       end
     end
 
     describe ".translate" do
       it "does an approximate translation" do
-        GoogleAjax::Language.translate("Ruby rocks", "en", "fr")['translatedText'].should == "Ruby roches"
+        GoogleAjax::Language.translate("Ruby rocks", "en", "fr")[:translated_text].should == "Ruby roches"
       end
     end
   end
@@ -71,22 +77,22 @@ shared_examples_for "GoogleAjax" do
       it "returns the right feeds" do
         feeds = GoogleAjax::Feed.find("Ruby")
         feeds.size.should == 10
-        feeds.any?{|result| result['url'] == "http://www.ruby-lang.org/en/feeds/news.rss"}.should be_true
+        feeds.any?{|result| result[:url] == "http://www.ruby-lang.org/en/feeds/news.rss"}.should be_true
       end
     end
 
     describe ".load" do
       it "loads entries of a feed" do
         feed = GoogleAjax::Feed.load('http://digg.com/rss/index.xml')
-        feed['title'].should == "digg.com: Stories / Popular"
-        feed['entries'].size.should == 4
+        feed[:title].should == "digg.com: Stories / Popular"
+        feed[:entries].size.should == 4
       end
     end
 
     describe ".lookup" do
       it "returns the feed associated with a URL" do
         feed = GoogleAjax::Feed.lookup("http://digg.com/")
-        feed['url'].should == "http://feeds.digg.com/digg/popular.rss"
+        feed[:url].should == "http://feeds.digg.com/digg/popular.rss"
       end
     end
   end

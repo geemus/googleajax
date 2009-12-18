@@ -1,75 +1,79 @@
 module GoogleAjax
-  module Language
-    LANGUAGE_VERSION = 1.0
-    def self.get(method, query, args)
-      args = { :v => LANGUAGE_VERSION }.merge(args)
-      GoogleAjax::get(:language, method, query, args)
+  class Language < Results
+    def name
+      LANGUAGE_NAME[self[:language]].to_s
     end
-    
+
+    ##
+    # :call-seq:
+    #   detect(query, args = {})
     # will return the language code that describes the language of the given text
-    def self.detect(query, args = {})
-      self.get(:detect, query, args)
-    end
+    standard_api :detect
     
-    # will return translated text for the given text supplied, matching the destination language.
+    # Translates the supplied text, matching the destination language.
+    # source and destination can be the language code ("en") or a symbol (:english).
+    # source can also be an empty string, in which case Google does an auto-detection and
+    # will set :detected_source_language to the language it used as a source.
     def self.translate(query, source, destination, args = {})
-      args = { :langpair => "#{source}%7C#{destination}"}.merge(args)
-      self.get(:translate, query, args)
+      langpair = [source, destination].map{|l| LANGUAGE_CODE[l] || l.to_s}.join("%7C")
+      args = { :langpair => langpair }.merge(args)
+      get(:translate, query, args)
     end
     
-    class Language < Base
-      def name
-        (@@lang_cache ||= LANGUAGES.invert)[self.language]
-      end
-    end
-    
-    class Translation < Base
-    end
-    
-    LANGUAGES =
+    LANGUAGE_CODE =
     {
-      'ARABIC' => 'ar',
-      'BULGARIAN' => 'bg',
-      'CATALAN' => 'ca',
-      'CHINESE' => 'zh',
-      'CHINESE_SIMPLIFIED' => 'zh-CN',
-      'CHINESE_TRADITIONAL' => 'zh-TW',
-      'CROATIAN' => 'hr',
-      'CZECH' => 'cs',
-      'DANISH' => 'da',
-      'DUTCH'=> 'nl',
-      'ENGLISH' => 'en',
-      'ESTONIAN' => 'et',
-      'FILIPINO' => 'tl',
-      'FINISH' => 'fi',
-      'FRENCH' => 'fr',
-      'GERMAN' => 'de',
-      'GREK' => 'el',
-      'HEBREW' => 'iw',
-      'HINDI' => 'hi',
-      'HUNGARIAN' => 'hu',
-      'INDONESIAN' => 'id',
-      'ITALIAN' => 'it',
-      'JAPANESE' => 'ja',
-      'KOREAN' => 'ko',
-      'LATVIAN' => 'lv',
-      'LITHUANIAN' => 'lt',
-      'NORWEGIAN' => 'no',
-      'PERSIAN' => 'fa',
-      'POLISH' => 'pl',
-      'PORTUGUESE' => 'pt-PT',
-      'ROMANIAN' => 'ro',
-      'RUSIAN' => 'ru',
-      'SERBIAN' => 'sr',
-      'SLOVAK' => 'sk',
-      'SLOVENIAN' => 'sl',
-      'SPANISH' => 'es',
-      'SWEDISH' => 'sv',
-      'THAI' => 'th',
-      'TURKISH' => 'tr',
-      'UKRAINIAN' => 'uk',
-      'VIETNAMESE' => 'vi',
-      'UNKNOWN' => ''
+      :afrikaans   => "af",
+      :albanian    => "sq",
+      :arabic      => "ar",
+      :belarusian  => "be",
+      :bulgarian   => "bg",
+      :catalan     => "ca",
+      :chinese     => "zh-CN",
+      :croatian    => "hr",
+      :czech       => "cs",
+      :danish      => "da",
+      :dutch       => "nl",
+      :english     => "en",
+      :estonian    => "et",
+      :filipino    => "tl",
+      :finnish     => "fi",
+      :french      => "fr",
+      :galician    => "gl",
+      :german      => "de",
+      :greek       => "el",
+      :hebrew      => "iw",
+      :hindi       => "hi",
+      :hungarian   => "hu",
+      :icelandic   => "is",
+      :indonesian  => "id",
+      :irish       => "ga",
+      :italian     => "it",
+      :japanese    => "ja",
+      :korean      => "ko",
+      :latvian     => "lv",
+      :lithuanian  => "lt",
+      :macedonian  => "mk",
+      :malay       => "ms",
+      :maltese     => "mt",
+      :norwegian   => "no",
+      :persian     => "fa",
+      :polish      => "pl",
+      :portuguese  => "pt",
+      :romanian    => "ro",
+      :russian     => "ru",
+      :serbian     => "sr",
+      :slovak      => "sk",
+      :slovenian   => "sl",
+      :spanish     => "es",
+      :swahili     => "sw",
+      :swedish     => "sv",
+      :thai        => "th",
+      :turkish     => "tr",
+      :ukrainian   => "uk",
+      :vietnamese  => "vi",
+      :welsh       => "cy",
+      :yiddish     => "yi"
     }
+    LANGUAGE_NAME = LANGUAGE_CODE.invert
   end
 end
