@@ -41,13 +41,20 @@ module GoogleAjax
     # The ConvertValues filter converts the string values
     # to ruby-style values (e.g. Integers, Floats, true, false or Strings)
     module ConvertValues
-      TRUE_OR_FALSE = /true|(false)/i
+      TRUE_OR_FALSE = /^true|(false)$/i
+      INTEGER = /^\d+$/
+      FLOAT = /^\d+\.\d+$/
       def initialize(h)
         h.each do |key, value|
           # Won't use Integer.try_convert for 1.8.6 & 7 compatibility
-          h[key] = Integer(value) \
-            rescue Float(value) \
-            rescue (value =~ TRUE_OR_FALSE ? Regexp.last_match[1].nil? : value)
+          case value
+          when INTEGER
+            h[key] = value.to_i
+          when FLOAT
+            h[key] = value.to_f
+          when TRUE_OR_FALSE
+            h[key] = Regexp.last_match[1].nil?
+          end
         end
         super(h)
       end
