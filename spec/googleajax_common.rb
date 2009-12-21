@@ -77,7 +77,7 @@ shared_examples_for "GoogleAjax" do
       it "returns the right feeds" do
         feeds = GoogleAjax::Feed.find("Ruby")
         feeds.size.should == 10
-        feeds.any?{|result| result[:url] == "http://www.ruby-lang.org/en/feeds/news.rss"}.should be_true
+        feeds.any?{|result| result[:url] == "http://ruby-lang.org/en/feeds/news.rss"}.should be_true
       end
     end
 
