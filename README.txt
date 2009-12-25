@@ -9,6 +9,8 @@ Ruby wrapper for Google AJAX API REST interfaces(Feeds, Language and Search).
 
 == SYNOPSIS:
 
+  require "googleajax"
+
   # First, setup referer: 
   GoogleAjax.referer = [your domain name here]
 
@@ -53,6 +55,37 @@ Ruby wrapper for Google AJAX API REST interfaces(Feeds, Language and Search).
   # Find top 4 web page results for 'Hello world'
   GoogleAjax::Search.web('Hello world')
 
+  # Find top 10 feeds for 'ruby'
+  GoogleAjax::Feed.find('ruby')
+
+
+
+=== Results
+
+Results from the methods are hashes, automatically converted from the response from Google.
+
+For example:
+
+  # Find top 4 web page results for 'Hello world'
+  GoogleAjax::Search.web('Hello world')
+  # => { :results=>[
+  #       { :title=>"<b>Hello world</b> program - Wikipedia, the free encyclopedia",
+  #         # ... more data ...
+  #         :url=>"http://en.wikipedia.org/wiki/Hello_world_program"
+  #       },
+  #       # ... more results
+  #     ],
+  #     :cursor=>{
+  #       :current_page_index=>0,
+  #       # ... more data ...
+  #       :estimated_result_count=>57800000
+  #     }
+  #   }
+
+When possible, the result is simplified:
+* Feed.find will return an array instead of {:entries => array}
+* Feed.load will return the feed instead of {:feed => feed}
+
 == REQUIREMENTS:
 
 * JSON gem to parse responses, or rails
@@ -66,6 +99,7 @@ Ruby wrapper for Google AJAX API REST interfaces(Feeds, Language and Search).
 (The MIT License)
 
 Copyright (c) 2009 {geemus (Wesley Beary)}[http://github.com/geemus]
+and {Marc-Andre Lafortune}[http://github.com/marcandre]
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

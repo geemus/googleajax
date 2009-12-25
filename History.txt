@@ -1,3 +1,14 @@
+=== 1.0.0 / 2009-12-17
+
+* Incompatible changes:
+  * Returns Hashes instead of OpenStruct by default (require googleajax/as_open_struct if you need OpenStruct)
+  * Indices are symbols with underscores instead of camelcased string, (e.g. :estimated_count instead of "estimatedCount")
+  * Values are converted automatically for Floats, Integers and true and false.
+
+* translate accepts :english, :french, etc... as source or destination languages in addition to the language codes
+
+* Much more flexible structure.
+
 === 0.2.0 / 2009-11-17
 
 * New features:
