@@ -1,6 +1,5 @@
+require 'net/http'
 require 'cgi'
-require 'open-uri'
-require 'rubygems'
 require 'json' unless defined?(Rails)
 
 # The following extensions are standard in either Ruby 1.8.7, 1.9 or rails:

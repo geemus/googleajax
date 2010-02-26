@@ -65,6 +65,10 @@ shared_examples_for "GoogleAjax" do
       it "does an approximate translation" do
         GoogleAjax::Language.translate("Ruby rocks", "en", "fr")[:translated_text].should == "Ruby roches"
       end
+
+      it "translates texts longer than the 2k limit on get requets" do
+        GoogleAjax::Language.translate("Ruby rocks. "*250, "en", "fr")[:translated_text].count("Ruby").should == 1000
+      end
     end
   end
 
@@ -77,7 +81,7 @@ shared_examples_for "GoogleAjax" do
       it "returns the right feeds" do
         feeds = GoogleAjax::Feed.find("Ruby")
         feeds.size.should == 10
-        feeds.any?{|result| result[:url] == "http://ruby-lang.org/en/feeds/news.rss"}.should be_true
+        feeds.map{|f| f[:url]}.should include "http://www.ruby-lang.org/en/feeds/news.rss"
       end
     end
 
