@@ -26,7 +26,11 @@ module GoogleAjax
       Filters::Recursive.remap(data, self)
     end
 
+    LOOKS_LIKE_HTML = /\w*<html>/i
     def parse(data)
+      if data =~ LOOKS_LIKE_HTML
+        raise StandardError, /<title>(.*)<\/title>/.match(data)[1]
+      end
       if defined? Rails
         ActiveSupport::JSON::decode(data)
       else
