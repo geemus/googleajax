@@ -34,6 +34,7 @@ module GoogleAjax
     # :call-seq:
     #   news(query, args = {})
     # Arguments: http://code.google.com/apis/ajaxsearch/documentation/reference.html#_fonje_news
+    # Contrary to the doc, scoring=d is not an acceptable parameter (nor is scoring=date)
 
     ##
     # :call-seq:

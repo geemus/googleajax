@@ -17,6 +17,20 @@ shared_examples_for "GoogleAjax" do
       end
     end
 
+    describe ".news" do
+      before :each do
+        GoogleAjax.referer = "http://example.com"
+      end
+
+      it "returns fresh news" do
+        one_day = 24 * 60 * 60
+        yesterday = Time.now - one_day
+        results = GoogleAjax::Search.news("", :topic => :h)[:results]
+        results.size.should >= 4
+        results.all?{|r| r[:published_date].should >= yesterday}
+      end
+    end
+
     {
       :blogs  => 100_000,
       :books  => 10_000,

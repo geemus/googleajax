@@ -5,20 +5,22 @@
 
 Gem::Specification.new do |s|
   s.name = %q{googleajax}
-  s.version = "1.0.0"
+  s.version = "1.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["geemus(Wesley Beary)", "Marc-Andre Lafortune"]
-  s.date = %q{2009-12-24}
+  s.date = %q{2010-02-26}
   s.email = %q{me@geemus.com}
   s.extra_rdoc_files = [
     "README.txt"
   ]
   s.files = [
-    "History.txt",
+    ".gitignore",
+     "History.txt",
      "README.txt",
      "Rakefile",
      "VERSION",
+     "googleajax.gemspec",
      "lib/googleajax.rb",
      "lib/googleajax/api.rb",
      "lib/googleajax/as_hash.rb",
@@ -52,7 +54,8 @@ Gem::Specification.new do |s|
      "spec/googleajax_basic_spec.rb",
      "spec/googleajax_common.rb",
      "spec/googleajax_spec.rb",
-     "spec/spec_helper.rb"
+     "spec/spec_helper.rb",
+     "spec/temp_spec.rb"
   ]
 
   if s.respond_to? :specification_version then

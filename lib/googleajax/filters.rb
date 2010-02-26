@@ -44,6 +44,7 @@ module GoogleAjax
       TRUE_OR_FALSE = /^true|(false)$/i
       INTEGER = /^\d+$/
       FLOAT = /^\d+\.\d+$/
+      TIME = /^[A-Z][a-z]{2}, \d\d [A-Z][a-z]{2} \d{4} \d\d:\d\d:\d\d \S*$/  # Very strict date format
       def initialize(h)
         h.each do |key, value|
           # Won't use Integer.try_convert for 1.8.6 & 7 compatibility
@@ -54,6 +55,9 @@ module GoogleAjax
             h[key] = value.to_f
           when TRUE_OR_FALSE
             h[key] = Regexp.last_match[1].nil?
+          when TIME
+            require 'time'
+            h[key] = Time.parse(value)
           end
         end
         super(h)
