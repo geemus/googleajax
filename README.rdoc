@@ -11,28 +11,16 @@ Ruby wrapper for Google AJAX API REST interfaces(Feeds, Language and Search).
 
   require "googleajax"
 
-  # First, setup referer: 
-  GoogleAjax.referer = [your domain name here]
+  # First, setup referrer:
+  GoogleAjax.referrer = "your_domain_name_here"
 
   # Optionally, you can set an api_key:
-  GoogleAjax.api_key = [your api key here]
+  GoogleAjax.api_key = "your api key here"
 
 === Now you are set to go, so here are a few examples:
 
-  # Find top 10 feeds for 'ruby'
-  GoogleAjax::Feed.find('ruby')
-
-  # Load 4 most recent entries from 'http://monki.geemus.com/feed/atom.xml'
-  GoogleAjax::Feed.load('http://monki.geemus.com/feed/atom.xml')
-
-  # Find feed for 'http://monki.geemus.com'
-  GoogleAjax::Feed.lookup('http://monki.geemus.com')
-
-  # Find the language of the string 'Ciao mondo'
-  GoogleAjax::Language.detect('Ciao mondo')
-
-  # Translate 'Hello world' to italian
-  GoogleAjax::Language.translate('Hello world', 'en', 'it')
+  # Find top 4 web page results for 'Hello world'
+  GoogleAjax::Search.web('Hello world')
 
   # Find top 4 blogs for 'ruby'
   GoogleAjax::Search.blogs('ruby')
@@ -52,13 +40,20 @@ Ruby wrapper for Google AJAX API REST interfaces(Feeds, Language and Search).
   # Find top 4 video results for 'ruby'
   GoogleAjax::Search.video('ruby')
 
-  # Find top 4 web page results for 'Hello world'
-  GoogleAjax::Search.web('Hello world')
-
   # Find top 10 feeds for 'ruby'
   GoogleAjax::Feed.find('ruby')
 
+  # Load 4 most recent entries from 'http://monki.geemus.com/feed/atom.xml'
+  GoogleAjax::Feed.load('http://monki.geemus.com/feed/atom.xml')
 
+  # Find feed for 'http://monki.geemus.com'
+  GoogleAjax::Feed.lookup('http://monki.geemus.com')
+
+  # Find the language of the string 'Ciao mondo'
+  GoogleAjax::Language.detect('Ciao mondo')
+
+  # Translate 'Hello world' to italian
+  GoogleAjax::Language.translate('Hello world', 'en', 'it')
 
 === Results
 
@@ -83,6 +78,7 @@ For example:
   #   }
 
 When possible, the result is simplified:
+
 * Feed.find will return an array instead of {:entries => array}
 * Feed.load will return the feed instead of {:feed => feed}
 
@@ -98,7 +94,7 @@ When possible, the result is simplified:
 
 (The MIT License)
 
-Copyright (c) 2009 {geemus (Wesley Beary)}[http://github.com/geemus]
+Copyright (c) 2009-2010 {geemus (Wesley Beary)}[http://github.com/geemus]
 and {Marc-Andre Lafortune}[http://github.com/marcandre]
 
 Permission is hereby granted, free of charge, to any person obtaining

@@ -1,6 +1,6 @@
 # encoding:utf-8
 shared_examples_for "GoogleAjax" do
-  it "requires a referer" do
+  it "requires a referrer" do
     GoogleAjax.referer = nil
     lambda{GoogleAjax::Search.web("testing")}.should raise_error
   end
@@ -8,7 +8,7 @@ shared_examples_for "GoogleAjax" do
   describe "::Search" do
     describe ".web" do
       before :each do
-        GoogleAjax.referer = "http://example.com"
+        GoogleAjax.referrer = "http://example.com"
         @response = GoogleAjax::Search.web("apple", :rsz => :large)
       end
 

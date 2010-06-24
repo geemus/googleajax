@@ -10,7 +10,7 @@ module GoogleAjax
     # Api doc is at http://code.google.com/apis/ajaxsearch/documentation/reference.html#_intro_fonje
     # We use one special option (not forwarded to google):  :html_method => :post will use a Post instead of a Get.
     def get(api, method, query, args = nil)
-      raise "You must assign a value to GoogleAjax.referer" unless referer
+      raise "You must assign a value to GoogleAjax.referrer" unless referer
       args ||= {}
       use_post = args.delete(:http_method) == :post
       args = args.merge!('q' => query)
