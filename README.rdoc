@@ -46,6 +46,9 @@ Ruby wrapper for Google AJAX API REST interfaces(Feeds, Language and Search).
   # Load 4 most recent entries from 'http://monki.geemus.com/feed/atom.xml'
   GoogleAjax::Feed.load('http://monki.geemus.com/feed/atom.xml')
 
+  # Load 10 entries instead of the default 4
+  GoogleAjax::Feed.load(url, {num: 10})
+
   # Find feed for 'http://monki.geemus.com'
   GoogleAjax::Feed.lookup('http://monki.geemus.com')
 

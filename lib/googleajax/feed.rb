@@ -17,7 +17,7 @@ module GoogleAjax
     ##
     # :call-seq:
     #   lookup(url, args = {})
-    # will return the associated feed if it exists for a given url    
+    # will return the associated feed if it exists for a given url
     # Arguments: http://code.google.com/apis/ajaxfeeds/documentation/reference.html#_intro_fonje
     standard_api :lookup
   end
